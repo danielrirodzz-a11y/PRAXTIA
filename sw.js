@@ -2,7 +2,7 @@ const CACHE_NAME = "opper-cache-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./praxtia-logo.jpeg"
+  "./nexa-logo.jpeg"
 ];
 
 self.addEventListener("install", event => {

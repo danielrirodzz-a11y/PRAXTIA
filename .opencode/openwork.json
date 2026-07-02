@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "workspace": {
+    "name": "TELECO",
+    "createdAt": 1782884942739,
+    "preset": "starter"
+  },
+  "authorizedRoots": [
+    "C:\\Users\\danie\\OneDrive\\Desktop\\TELECO\\TELECO"
+  ],
+  "reload": null
+}

@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PRAXTIA - Edición Pro Completa</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PRAXTIA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="praxtia-logo.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ===== iOS DESIGN SYSTEM — PRAXTIA ===== */
+
+        /* --- Variables --- */
+        :root {
+            --primary: #5b5bd6;
+            --primary-dark: #4a4ac4;
+            --primary-glow: rgba(91, 91, 214, 0.35);
+            --bg-light: #f2f2f7;
+            --bg-card: rgba(255,255,255,0.97);
+            --white: #ffffff;
+            --text-main: #1c1c1e;
+            --text-sub: #8e8e93;
+            --text-tertiary: #aeaeb2;
+            --danger: #ff3b30;
+            --success: #34c759;
+            --separator: rgba(60,60,67,0.08);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+            --radius-full: 9999px;
+            --safe-bottom: 16px;
+        }
+
+        /* --- Reset --- */
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body {
+            background: var(--bg-light);
+            font-family: 'Inter', -apple-system, 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+        }
+        * { box-sizing: border-box; }
+
+        /* --- iPhone Frame (se activa en pantallas grandes) --- */
+        .iphone-frame {
+            width: 100%; height: 100dvh;
+            margin: 0 auto; background: transparent;
+            border-radius: 0; padding: 0;
+            position: relative; box-shadow: none; border: none;
+        }
+        .screen {
+            width: 100%; height: 100%; min-height: 100dvh;
+            background: var(--bg-light);
+            border-radius: 0; position: relative;
+            overflow: hidden; display: flex; flex-direction: column;
+            overscroll-behavior: contain;
+        }
+        /* Home indicator (visible solo dentro del frame) */
+        .home-indicator {
+            display: none;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.18);
+            z-index: 9999;
+        }
+
+        /* --- Status Bar + Dynamic Island (visible siempre) --- */
+        .header-fixed {
+            display: none;
+            height: 56px;
+            position: relative;
+            z-index: 2000;
+            padding: 0 24px;
+            background: transparent;
+            flex-shrink: 0;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1c1c1e;
+            position: relative;
+        }
+        .status-time {
+            min-width: 56px;
+            letter-spacing: -0.3px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            font-size: 16px;
+            z-index: 2;
+        }
+        .dynamic-island {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 126px;
+            height: 36px;
+            background: linear-gradient(180deg, #0d0d0d 0%, #000 100%);
+            border-radius: 999px;
+            box-shadow:
+                inset 0 1px 0.5px rgba(255,255,255,0.05),
+                0 6px 16px rgba(0,0,0,0.35);
+            z-index: 3;
+        }
+        .dynamic-island::after {
+            content: '';
+            position: absolute;
+            right: auto;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #1a1a1e;
+            box-shadow:
+                0 0 0 2px rgba(255,255,255,0.02),
+                inset 0 0 3px rgba(255,255,255,0.04);
+        }
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 72px;
+            justify-content: flex-end;
+            z-index: 2;
+            font-size: 14px;
+        }
+        /* iOS-style signal bars */
+        .signal-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5px;
+            height: 12px;
+        }
+        .signal-bars .bar {
+            display: block;
+            width: 3px;
+            background: #1c1c1e;
+            border-radius: 1px;
+            transition: opacity 0.2s;
+        }
+        .bar-1 { height: 3px; }
+        .bar-2 { height: 5px; }
+        .bar-3 { height: 8px; }
+        .bar-4 { height: 11px; opacity: 0.35; }
+        .battery-shell {
+            width: 24px; height: 11px;
+            border: 1.5px solid #1c1c1e;
+            border-radius: 3.5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 1.5px;
+        }
+        .battery-shell::after {
+            content: '';
+            position: absolute;
+            right: -3.5px;
+            top: 2.5px;
+            width: 2.5px;
+            height: 4.5px;
+            border-radius: 0.5px;
+            background: #1c1c1e;
+        }
+        .battery-level {
+            width: 17px;
+            height: 6px;
+            background: #1c1c1e;
+            border-radius: 1px;
+        }
+
+        /* --- iPhone frame: solo en pantallas grandes --- */
+        @media (min-width: 500px) {
+            .header-fixed { display: block; }
+            .home-indicator { display: block; }
+            body {
+                background: radial-gradient(ellipse at 50% 80%, #2d2d30 0%, #1c1c1e 60%, #0d0d0d 100%);
+                display: flex; justify-content: center; align-items: center;
+                padding: 20px;
+                min-height: 100vh;
+                font-size: 16px;
+            }
+            .iphone-frame {
+                max-width: 390px;
+                width: 390px;
+                height: min(844px, calc(100vh - 40px));
+                background: #000;
+                border-radius: 56px;
+                padding: 14px;
+                box-shadow:
+                    0 0 0 1px rgba(255,255,255,0.06),
+                    0 60px 140px -30px rgba(0,0,0,0.7),
+                    0 30px 60px -20px rgba(0,0,0,0.5);
+            }
+            .screen {
+                min-height: auto;
+                height: 100%;
+                border-radius: 42px;
+                overflow: hidden;
+            }
+            .view {
+                padding-bottom: 120px;
+            }
+            #view-welcome {
+                padding-bottom: 120px;
+            }
+            #view-home {
+                padding-top: 4px;
+            }
+        }
+
+
+
+        /* --- Scrollable Views --- */
+        .view {
+            flex: 1; padding: 8px 16px 120px;
+            display: none; flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .view::-webkit-scrollbar { display: none; }
+        .active-view { display: flex; }
+        #view-profile {
+            padding: 8px 16px 120px; overflow-y: auto; scrollbar-width: none;
+        }
+        #view-profile::-webkit-scrollbar { display: none; }
+
+        /* --- Empty states: centrados verticalmente en cada vista --- */
+        #postulaciones-list,
+        #accepted-list,
+        #job-detail-container,
+        #list-container,
+        #view-notifications #notif-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        #postulaciones-list .empty-state,
+        #accepted-list .empty-state,
+        #job-detail-container .empty-state,
+        #list-container .empty-state,
+        #view-notifications .empty-state {
+            margin: auto;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 15px;
+            line-height: 1.5;
+            padding: 0 32px;
+        }
+        /* Ícono decorativo */
+        #view-notifications .empty-state::before,
+        #postulaciones-list .empty-state::before,
+        #accepted-list .empty-state::before {
+            content: '\f0f3';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 300;
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-tertiary);
+        }
+        #postulaciones-list .empty-state::before {
+            content: '\f0b1';
+        }
+        #accepted-list .empty-state::before {
+            content: '\f00c';
+        }
+        /* Profile: centrar "Sin novedades" (notif-list dentro de card) */
+        #profile-notif-list {
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        #profile-notif-list .empty-state {
+            margin: auto;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 14px;
+            padding: 0 20px;
+        }
+
+        /* --- Typography (iOS style) --- */
+        h1 {
+            font-size: 30px; font-weight: 800;
+            color: var(--text-main); margin: 4px 0 2px;
+            letter-spacing: -0.03em; line-height: 1.05;
+        }
+        h3 {
+            font-size: 12px; font-weight: 600; color: var(--text-sub);
+            margin: 14px 0 8px; text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        label {
+            font-size: 12px; font-weight: 500; color: var(--text-sub);
+            margin-bottom: 5px; display: block;
+        }
+
+        /* --- iOS-style Form Inputs --- */
+        input, select, textarea {
+            width: 100%; padding: 14px 14px;
+            background: var(--bg-card);
+            border: none;
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            font-size: 16px; font-family: inherit;
+            color: var(--text-main);
+            box-shadow: inset 0 0 0 0.5px var(--separator);
+            transition: box-shadow 0.2s;
+        }
+        textarea { resize: vertical; min-height: 80px; }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: inset 0 0 0 0.5px var(--separator), 0 0 0 3px var(--primary-glow);
+        }
+        .input-error {
+            box-shadow: inset 0 0 0 0.5px var(--separator), 0 0 0 3px rgba(255,59,48,0.2) !important;
+        }
+        .error-msg { color: var(--danger); font-size: 12px; font-weight: 500; margin: -4px 0 10px; display: none; }
+
+        /* --- Search (iOS style) --- */
+        .search-container {
+            display: flex; align-items: center;
+            background: rgba(118,118,128,0.12);
+            border-radius: var(--radius-md);
+            padding: 4px 12px; margin: 12px 0;
+        }
+        .search-container i { color: var(--text-tertiary); font-size: 15px; }
+        .search-container input {
+            border: none; margin-bottom: 0; padding: 10px 8px;
+            flex: 1; outline: none; background: transparent;
+            font-size: 16px; box-shadow: none;
+        }
+        .search-container input:focus { box-shadow: none; }
+
+        /* Notificación dot en el tab de navegación */
+        .nav-notif {
+            position: relative;
+        }
+        .nav-notif-dot {
+            position: absolute; top: 4px; right: calc(50% - 18px);
+            width: 8px; height: 8px;
+            background: var(--danger); border-radius: 50%;
+            display: none;
+            box-shadow: 0 0 0 1.5px var(--bg-light);
+        }
+        .notif-actions {
+            display: flex; justify-content: flex-end;
+        }
+
+        /* --- iOS Buttons --- */
+        .btn {
+            padding: 16px; border-radius: var(--radius-md);
+            font-weight: 600; font-size: 16px;
+            cursor: pointer; text-align: center;
+            border: none; transition: transform 0.12s ease, opacity 0.15s;
+            width: 100%; font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary {
+            background: var(--primary); color: white;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+        .btn-postular {
+            padding: 8px 16px; font-size: 13px; font-weight: 600;
+            width: auto; background: var(--primary); color: white;
+            border-radius: var(--radius-full);
+            border: none; cursor: pointer; font-family: inherit;
+            transition: opacity 0.2s;
+        }
+        .btn-postular:active { opacity: 0.75; }
+        .btn-postular:disabled { background: var(--text-tertiary); cursor: not-allowed; opacity: 0.6; }
+        .btn-edit {
+            background: var(--bg-card); color: var(--primary);
+            padding: 12px; border-radius: var(--radius-md);
+            font-size: 14px; font-weight: 600;
+            margin-top: 10px; cursor: pointer; font-family: inherit;
+            border: none; box-shadow: inset 0 0 0 0.5px var(--separator);
+        }
+        .btn-logout {
+            background: rgba(255,59,48,0.08); color: var(--danger);
+            margin-top: 20px; border-radius: var(--radius-md);
+            border: none; font-family: inherit; font-weight: 600; font-size: 15px;
+            padding: 14px;
+        }
+        .btn-secondary {
+            background: rgba(118,118,128,0.08); color: var(--primary);
+            box-shadow: none; border: none; font-family: inherit;
+            font-weight: 600;
+        }
+        .btn-demo {
+            background: transparent; color: var(--text-sub);
+            box-shadow: none; border: 1px solid var(--separator);
+            font-family: inherit; font-weight: 500; font-size: 14px;
+            margin-top: 8px;
+        }
+        .btn-demo:hover { background: rgba(118,118,128,0.05); }
+
+        /* --- Cards (iOS grouped list style) --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        .icon-box {
+            width: 44px; height: 44px;
+            background: rgba(91,91,214,0.1);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: var(--primary);
+            flex-shrink: 0;
+        }
+        .file-group {
+            background: var(--bg-card); padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px dashed var(--text-tertiary);
+            margin-bottom: 8px;
+        }
+
+        /* --- Job Cards --- */
+        .job-card { transition: transform 0.15s ease; cursor: pointer; }
+        .job-card:active { transform: scale(0.98); }
+        .job-header { display: flex; align-items: center; gap: 14px; }
+        .job-chevron { color: var(--text-tertiary); font-size: 14px; flex-shrink: 0; }
+        .job-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .job-pill {
+            background: rgba(91,91,214,0.08);
+            color: var(--primary-dark);
+            padding: 4px 8px;
+            border-radius: var(--radius-full);
+            font-size: 11px; font-weight: 600;
+            white-space: nowrap;
+        }
+        .job-description { font-size: 13px; line-height: 1.45; color: var(--text-sub); margin: 0 0 12px; }
+        .job-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .job-detail-box {
+            background: rgba(118,118,128,0.06);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+        }
+        .job-detail-label { font-size: 11px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; letter-spacing: 0.3px; margin-bottom: 2px; }
+        .job-detail-value { font-size: 13px; color: var(--text-main); font-weight: 600; }
+        .job-section-title { font-size: 12px; font-weight: 600; color: var(--text-sub); margin: 0 0 6px; }
+        .job-list { margin: 0; padding-left: 20px; color: var(--text-sub); font-size: 13px; line-height: 1.5; }
+        .job-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; }
+        .job-link {
+            border: none; background: transparent;
+            color: var(--primary); font-size: 14px; font-weight: 600;
+            cursor: pointer; padding: 0; font-family: inherit;
+        }
+
+        /* --- Detail --- */
+        .detail-topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .detail-back {
+            width: 36px; height: 36px;
+            border-radius: var(--radius-full);
+            border: none; background: rgba(118,118,128,0.1);
+            color: var(--primary); cursor: pointer; font-size: 15px;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        .detail-hero {
+            background: linear-gradient(145deg, var(--bg-card) 0%, rgba(91,91,214,0.04) 100%);
+            border-radius: var(--radius-xl);
+            padding: 18px; margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* --- Home --- */
+        .home-hero {
+            background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 55%, #38bdf8 100%);
+            border-radius: var(--radius-xl);
+            padding: 24px 16px;
+            color: #fff;
+            box-shadow: 0 20px 40px -8px rgba(15,23,42,0.25);
+            position: relative; overflow: hidden;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .home-hero::before {
+            content: ''; position: absolute;
+            width: 160px; height: 160px;
+            right: -40px; top: -50px;
+            background: rgba(255,255,255,0.08); border-radius: 50%;
+        }
+        .home-hero::after {
+            content: ''; position: absolute;
+            width: 130px; height: 130px;
+            left: -55px; bottom: -60px;
+            background: rgba(255,255,255,0.06); border-radius: 50%;
+        }
+        .home-eyebrow { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; opacity: 0.7; font-weight: 600; margin-bottom: 10px; }
+        .home-hero h2 { margin: 0 0 6px; font-size: 26px; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
+        .home-hero p { margin: 0 auto; font-size: 14px; line-height: 1.45; max-width: 240px; opacity: 0.88; }
+        .home-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 12px 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-value { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; word-wrap: break-word; font-variant-numeric: tabular-nums; }
+        .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-sub); font-weight: 600; }
+        .home-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 12px;
+        }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .panel-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0; }
+        .panel-chip {
+            background: rgba(91,91,214,0.08);
+            color: var(--primary-dark);
+            border-radius: var(--radius-full);
+            padding: 5px 10px; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .highlight-role { display: flex; gap: 14px; align-items: flex-start; }
+        .highlight-copy h4 { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: var(--text-main); }
+        .highlight-copy p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--text-sub); }
+        .section-kicker { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-sub); margin: 4px 0 10px; }
+
+        /* --- iOS Tab Bar (navigation) --- */
+        .nav-bar {
+            height: 60px;
+            display: none;
+            position: absolute;
+            left: 16px; right: 16px;
+            bottom: 22px;
+            z-index: 1000;
+            padding: 4px 6px;
+            border-radius: var(--radius-xl);
+            background: rgba(255,255,255,0.48);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 0.5px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .nav-item {
+            flex: 1; height: 50px;
+            color: var(--text-tertiary);
+            font-size: 10px; font-weight: 600;
+            text-align: center; cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 1px;
+            background: transparent;
+            border: none;
+            transition: color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-item.active {
+            color: var(--primary);
+        }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 1px; }
+        .nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1px; }
+
+        /* --- Misc --- */
+        .info-box { background: var(--bg-card); border-radius: var(--radius-lg); padding: 15px; box-shadow: var(--shadow-sm); margin-bottom: 15px; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--separator); font-size: 14px; }
+        .info-row:last-child { border-bottom: none; }
+        .empty-state { color: var(--text-sub); text-align: center; font-size: 14px; }
+        .post-date { font-size: 12px; color: var(--text-sub); margin-top: 6px; }
+        .profile-alert-item { font-size: 13px; color: var(--text-sub); padding: 10px 0; border-bottom: 0.5px solid var(--separator); }
+
+        /* --- Profile (iOS grouped cards) --- */
+        .profile-stage {
+            background: var(--bg-light);
+        }
+        .profile-hero-card {
+            background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 58%, #38bdf8 100%);
+            border-radius: var(--radius-xl);
+            padding: 24px 20px 24px;
+            color: #fff;
+            box-shadow: 0 20px 44px -8px rgba(15,23,42,0.2);
+            margin: 0 0 14px;
+            width: 100%;
+        }
+        .profile-hero-content { text-align: center; }
+        .profile-hero-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; justify-content: center; }
+        .profile-avatar-shell {
+            width: 72px; height: 72px;
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            border: 1.5px solid rgba(255,255,255,0.25);
+            flex-shrink: 0; overflow: hidden;
+        }
+        .profile-avatar-shell img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 11px;
+            border-radius: var(--radius-full);
+            background: rgba(255,255,255,0.12);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.6px; text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .profile-name { margin: 0 0 2px; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+        .profile-mail { margin: 0; color: rgba(255,255,255,0.65); font-size: 13px; }
+        .profile-summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .profile-summary-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            padding: 10px;
+        }
+        .profile-summary-label {
+            font-size: 10px; text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.55);
+            font-weight: 600; margin-bottom: 3px;
+        }
+        .profile-summary-value { font-size: 14px; color: #fff; font-weight: 700; line-height: 1.3; }
+        .profile-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 16px 18px;
+            box-shadow: var(--shadow-sm);
+            margin: 0 0 12px;
+            width: 100%;
+        }
+        .profile-card-title { margin: 0 0 10px; font-size: 15px; color: var(--text-main); font-weight: 700; }
+        .profile-actions { display: grid; gap: 10px; width: 100%; margin: 0; }
+
+        /* --- Welcome (iOS style) --- */
+        .welcome-logo { width: 100%; height: 100%; object-fit: contain; }
+        #view-welcome {
+            justify-content: center; align-items: center;
+            overflow: hidden;
+            padding: 20px 16px 120px;
+            background:
+                radial-gradient(circle at 80% 20%, rgba(56,189,248,0.15), transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(91,91,214,0.1), transparent 40%),
+                linear-gradient(180deg, #f5f5fa 0%, #e8e8f0 100%);
+        }
+        .welcome-shell {
+            width: calc(100% - 16px);
+            max-width: 320px;
+            position: relative; margin: 0 auto;
+            overflow: hidden;
+            border-radius: var(--radius-xl);
+            padding: 24px 20px 22px;
+            background: rgba(255,255,255,0.82);
+            border: 0.5px solid rgba(255,255,255,0.7);
+            box-shadow: 0 30px 50px -12px rgba(0,0,0,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .welcome-shell::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+        }
+        .welcome-content { position: relative; z-index: 1; text-align: center; }
+        .welcome-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(60,60,67,0.06);
+            color: var(--text-sub);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.6px; text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .welcome-logo-wrap {
+            width: 112px; height: 112px;
+            margin: 0 auto 14px;
+            border-radius: var(--radius-lg);
+            display: flex; align-items: center; justify-content: center;
+            padding: 10px;
+            background: linear-gradient(145deg, #ffffff 0%, #edf2ff 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 20px 32px -8px rgba(91,91,214,0.15);
+            animation: welcomeFloat 4s ease-in-out infinite;
+        }
+        .welcome-title { font-size: 32px; font-weight: 900; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 10px; color: var(--text-main); }
+        .welcome-subtitle { margin: 0 auto 20px; max-width: 250px; color: var(--text-sub); font-size: 14px; line-height: 1.5; }
+        .welcome-cta {
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-size: 16px;
+            box-shadow: 0 16px 28px -10px var(--primary-glow);
+            margin-bottom: 10px;
+        }
+        .welcome-note { margin: 0; font-size: 11px; color: var(--text-tertiary); line-height: 1.45; }
+        .welcome-actions { display: grid; gap: 10px; margin-bottom: 12px; }
+
+        @keyframes welcomeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .profile-avatar-placeholder {
+            width: 64px; height: 64px;
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.15);
+            color: #fff; font-size: 26px;
+        }
+
+        /* --- Login / Register (iOS grouped form) --- */
+        #view-login, #view-register {
+            gap: 8px;
+        }
+        #view-login h1, #view-register h1 { margin-bottom: 2px; }
+        #view-login .reg-subtitle, #view-register .reg-subtitle {
+            margin: 0 0 12px; font-size: 14px; color: var(--text-sub);
+        }
+        #view-login .reg-card, #view-register .reg-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        #view-login h3, #view-register h3 {
+            margin: 0 0 12px; border: none; padding: 0;
+            font-size: 12px; font-weight: 600;
+            color: var(--text-sub); letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        #view-register input,
+        #view-register select {
+            border-radius: var(--radius-sm);
+            background: rgba(118,118,128,0.06);
+            padding: 14px 14px;
+            font-size: 16px; margin-bottom: 8px;
+            box-shadow: none;
+        }
+        #view-register input:focus,
+        #view-register select:focus {
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+        #view-login .file-group, #view-register .file-group {
+            background: rgba(118,118,128,0.04);
+            border: 1px dashed var(--text-tertiary);
+            border-radius: var(--radius-sm);
+            padding: 12px; margin-bottom: 8px;
+        }
+        #view-login .btn-primary, #view-register .btn-primary {
+            border-radius: var(--radius-md);
+            padding: 16px; font-size: 16px;
+            box-shadow: 0 8px 24px -8px var(--primary-glow);
+        }
+        .photo-upload { display: flex; gap: 14px; align-items: center; }
+        .photo-preview {
+            width: 68px; height: 68px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(145deg, rgba(91,91,214,0.06) 0%, rgba(91,91,214,0.1) 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 22px;
+            overflow: hidden; flex-shrink: 0;
+        }
+        .photo-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .photo-copy { flex: 1; }
+        .photo-copy p { margin: 0 0 8px; font-size: 12px; line-height: 1.45; color: var(--text-sub); }
+
+        /* --- Misc helpers --- */
+        .spinner {
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle; margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .toast {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.92);
+            background: rgba(28,28,30,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white; padding: 12px 20px;
+            border-radius: var(--radius-lg);
+            font-size: 14px; font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 0 0.5px rgba(255,255,255,0.06);
+            z-index: 5000;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+            white-space: pre-line;
+            text-align: center;
+            max-width: 85vw;
+            line-height: 1.4;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        @media (min-width: 768px) {
+            .nav-bar { left: 14px; right: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast container -->
+    <div id="toast" class="toast"></div>
+
+    <div class="iphone-frame">
+        <div class="screen">
+            <!-- HEADER -->
+            <div class="header-fixed">
+                <div class="status-bar">
+                    <div id="clock" class="status-time">9:41</div>
+                    <div class="dynamic-island"></div>
+                    <div class="status-right">
+                        <!-- Señal celular iOS: 4 barras -->
+                        <div class="signal-bars">
+                            <span class="bar bar-1"></span>
+                            <span class="bar bar-2"></span>
+                            <span class="bar bar-3"></span>
+                            <span class="bar bar-4"></span>
+                        </div>
+                        <i class="fas fa-wifi" style="font-size:14px; opacity:0.85;"></i>
+                        <div class="battery-shell" aria-hidden="true">
+                            <div class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: WELCOME -->
+            <div id="view-welcome" class="view active-view">
+                <div class="welcome-shell">
+                    <div class="welcome-content">
+                        <div class="welcome-badge"><i class="fas fa-shield-alt"></i> Plataforma profesional</div>
+                        <div class="welcome-logo-wrap">
+                            <img src="praxtia-logo.jpeg" alt="Logo de PRAXTIA" class="welcome-logo">
+                        </div>
+                        <h1 class="welcome-title">PRAXTIA</h1>
+                        <p class="welcome-subtitle">Encuentra oportunidades con una experiencia simple, clara y profesional.</p>
+                        <div class="welcome-actions">
+                            <button class="btn btn-primary welcome-cta" id="welcome-primary-btn" onclick="openPrimaryAccess()">Iniciar sesión</button>
+                            <button class="btn btn-secondary" id="welcome-register-btn" onclick="showView('view-register')">Crear cuenta</button>
+                            <button class="btn btn-demo" id="welcome-demo-btn" onclick="enterDemoMode()">Entrar como invitado</button>
+                        </div>
+                        <p class="welcome-note">Tu perfil profesional en un solo lugar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: LOGIN -->
+            <div id="view-login" class="view">
+                <h1>Iniciar Sesión</h1>
+                <p class="reg-subtitle">Ingresa con la cuenta que ya registraste anteriormente.</p>
+
+                <div class="reg-card">
+                    <h3>Acceso</h3>
+                    <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email">
+                    <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password">
+                </div>
+
+                <button class="btn btn-primary" onclick="handleLogin()">Entrar</button>
+                <button class="btn btn-secondary" onclick="showView('view-register')" style="margin-top:10px;">Crear cuenta nueva</button>
+                <button class="btn btn-secondary" onclick="showView('view-welcome')" style="margin-top:6px; background:transparent; color:var(--text-sub); font-size:12px;"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
+                <div style="height:30px;"></div>
+            </div>
+
+            <!-- VIEW: REGISTER -->
+            <div id="view-register" class="view">
+                <h1>Crear Cuenta</h1>
+                <p class="reg-subtitle">Configura tu perfil profesional en pocos pasos.</p>
+
+                <div class="reg-card">
+                    <h3>Datos de Acceso</h3>
+                    <input type="text" id="reg-first-name" placeholder="Primer nombre *">
+                    <input type="text" id="reg-second-name" placeholder="Segundo nombre">
+                    <input type="text" id="reg-last-name" placeholder="Apellidos *">
+                    <input type="email" id="reg-email" placeholder="Correo electrónico *">
+                    <input type="password" id="reg-pass" placeholder="Contraseña *">
+                    <div id="reg-error" class="error-msg" style="display:none;"></div>
+                </div>
+
+                <div class="reg-card">
+                    <h3>Perfil Profesional</h3>
+                    <select id="reg-formacion" onchange="updateUploadLabel()">
+                        <option value="trabajo">Profesional</option>
+                        <option value="tecnico">Técnico</option>
+                        <option value="oficio">Oficio</option>
+                        <option value="universidad">Estudiante</option>
+                    </select>
+                    <input type="number" id="reg-exp" placeholder="Años de experiencia *" min="0">
+                </div>
+
+                <div class="reg-card">
+                    <h3>Foto de Perfil</h3>
+                    <div class="photo-upload">
+                        <div class="photo-preview" id="reg-photo-preview-box">
+                            <i class="fas fa-user"></i>
+                            <img id="photo-preview-img" alt="Vista previa de perfil">
+                        </div>
+                        <div class="photo-copy">
+                            <p>Sube una imagen para identificar fácilmente tu perfil dentro de la plataforma.</p>
+                            <input type="file" id="reg-photo" accept="image/*" onchange="previewProfilePhoto(event)" style="font-size:11px; border:none; background:transparent; padding:0; margin:0;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reg-card">
+                    <h3>Documentación</h3>
+                    <div class="file-group">
+                        <label>CV / Hoja de Vida (PDF)</label>
+                        <input type="file" id="reg-cv" accept=".pdf,.doc,.docx" onchange="appDocs.cv = !!this.files.length" style="font-size:11px; border:none;">
+                    </div>
+                    <div class="file-group">
+                        <label id="upload-label">Título Profesional</label>
+                        <input type="file" id="reg-document" accept=".pdf,.jpg,.jpeg,.png" onchange="appDocs.title = !!this.files.length" style="font-size:11px; border:none;">
+                    </div>
+                </div>
+
+                <div class="reg-card">
+                    <h3>Preferencias</h3>
+                    <select id="reg-salary">
+                        <option value="$1,200 - $2,500">$1,200 - $2,500</option>
+                        <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+                        <option value="$5,000+">$5,000+</option>
+                    </select>
+                    <select id="reg-modalidad">
+                        <option value="Remoto">Remoto</option>
+                        <option value="Híbrido">Híbrido</option>
+                        <option value="Presencial">Presencial</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" onclick="handleRegister()">Registrarme</button>
+                <button class="btn btn-secondary" onclick="showView('view-welcome')" style="margin-top:10px;"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
+                <div style="height:30px;"></div>
+            </div>
+
+            <!-- VIEW: HOME -->
+            <div id="view-home" class="view">
+                <div class="home-hero">
+                    <div class="home-eyebrow">Panel Profesional</div>
+                    <h2>Encuentra oportunidades que sí encajan contigo</h2>
+                    <p>Vacantes filtradas por experiencia, modalidad y proyección para que tu siguiente paso sea más claro.</p>
+                </div>
+                <div class="home-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-vacantes">0</div>
+                        <div class="stat-label">Vacantes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-empresas">0</div>
+                        <div class="stat-label">Empresas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-postulaciones">0</div>
+                        <div class="stat-label">Postulaciones</div>
+                    </div>
+                </div>
+                <div class="home-panel">
+                    <div class="panel-header">
+                        <p class="panel-title">Vacante destacada</p>
+                        <span class="panel-chip">Top Match</span>
+                    </div>
+                    <div class="highlight-role">
+                        <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                        <div class="highlight-copy">
+                            <h4>Analista de Sistemas - Tech-Solutions</h4>
+                            <p>Perfil híbrido con crecimiento, buen rango salarial y alineado a experiencia técnica y análisis de procesos.</p>
+                        </div>
+                    </div>
+                </div>
+                <h1>Explorar</h1>
+                <div class="section-kicker">Oportunidades disponibles</div>
+                <div class="search-container">
+                    <i class="fas fa-search" style="color: var(--text-sub);"></i>
+                    <input type="text" id="job-search" placeholder="Buscar por cargo o empresa..." oninput="filterJobs()">
+                </div>
+                <div id="list-container"></div>
+            </div>
+
+            <!-- VIEW: JOB DETAIL -->
+            <div id="view-job-detail" class="view">
+                <div class="detail-topbar">
+                    <button class="detail-back" type="button" onclick="navTo('view-home', 'nav-home')"><i class="fas fa-arrow-left"></i></button>
+                    <div>
+                        <h1 style="font-size:22px;">Detalle de Vacante</h1>
+                        <div style="font-size:12px; color:var(--text-sub);">Revisa la información completa antes de postularte.</div>
+                    </div>
+                </div>
+                <div id="job-detail-container"></div>
+            </div>
+
+            <!-- VIEW: POSTULACIONES -->
+            <div id="view-postulaciones" class="view">
+                <h1>Mis Postulaciones</h1>
+                <div id="postulaciones-list"></div>
+            </div>
+
+            <!-- VIEW: ACEPTADAS -->
+            <div id="view-accepted" class="view">
+                <h1>Postulaciones Aceptadas</h1>
+                <div class="section-kicker">Condiciones confirmadas por la empresa</div>
+                <div id="accepted-list"></div>
+            </div>
+
+            <!-- VIEW: NOTIFICACIONES -->
+            <div id="view-notifications" class="view">
+                <h1>Avisos</h1>
+                <div class="section-kicker">Centro de notificaciones</div>
+                <div class="notif-actions">
+                    <button class="btn btn-secondary" onclick="clearNotifs()" style="padding:10px; font-size:13px; margin-bottom:12px;">
+                        <i class="fas fa-trash-can"></i> Limpiar todo
+                    </button>
+                </div>
+                <div id="notif-list"><div class="empty-state">No hay avisos recientes.</div></div>
+                <div style="height:30px;"></div>
+            </div>
+
+            <!-- VIEW: PROFILE -->
+            <div id="view-profile" class="view profile-stage">
+                <div class="profile-hero-card">
+                    <div class="profile-hero-content">
+                        <div class="profile-eyebrow"><i class="fas fa-id-badge"></i> Perfil profesional</div>
+                        <div class="profile-hero-top">
+                            <div class="profile-avatar-shell" id="profile-avatar-shell">
+                                <img src="praxtia-logo.jpeg" alt="" class="profile-avatar-placeholder" id="default-profile-logo">
+                                <img src="" alt="Foto de perfil" class="profile-avatar" id="profile-avatar" style="display:none;">
+                            </div>
+                            <div>
+                                <h2 id="display-name" class="profile-name"></h2>
+                                <p id="display-email" class="profile-mail"></p>
+                            </div>
+                        </div>
+                        <div class="profile-summary-grid">
+                            <div class="profile-summary-card">
+                                <div class="profile-summary-label">Formación</div>
+                                <div class="profile-summary-value" id="p-cat"></div>
+                            </div>
+                            <div class="profile-summary-card">
+                                <div class="profile-summary-label">Experiencia</div>
+                                <div class="profile-summary-value" id="p-exp"></div>
+                            </div>
+                            <div class="profile-summary-card">
+                                <div class="profile-summary-label">Modalidad</div>
+                                <div class="profile-summary-value" id="p-mod"></div>
+                            </div>
+                            <div class="profile-summary-card">
+                                <div class="profile-summary-label">Sueldo esperado</div>
+                                <div class="profile-summary-value" id="p-salary"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profile-read">
+                    <div class="profile-card">
+                        <div class="profile-card-title">Actividad reciente</div>
+                        <div id="profile-notif-list"><div class="empty-state">Sin novedades por ahora.</div></div>
+                    </div>
+                    <div id="profile-extra-card" class="profile-card" style="display:none;">
+                        <div class="profile-card-title">Detalles del perfil</div>
+                        <div id="profile-extra-list"></div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-edit" onclick="toggleEdit(true)"><i class="fas fa-pencil"></i> Editar información</button>
+                        <button class="btn btn-logout" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+
+                <div id="profile-edit" class="profile-card" style="display:none;">
+                    <h3>Actualizar Perfil</h3>
+
+                    <!-- Indicador de completitud -->
+                    <div id="profile-completeness" style="margin-bottom:14px; padding:10px 12px; border-radius:14px; background:#f8fafc; border:1px solid #e2e8f0; font-size:11px;"></div>
+
+                    <label>Foto de perfil</label>
+                    <div class="photo-upload" style="margin-bottom:10px;">
+                        <div class="photo-preview" id="edit-photo-preview">
+                            <i class="fas fa-user"></i>
+                            <img id="edit-photo-img" alt="Vista previa" style="display:none;">
+                        </div>
+                        <div class="photo-copy">
+                            <p style="font-size:10px;">Recomendada para aplicar a vacantes.</p>
+                            <input type="file" id="edit-photo" accept="image/*" onchange="previewEditPhoto(event)" style="font-size:10px; border:none; background:transparent; padding:0; margin:0;">
+                        </div>
+                    </div>
+
+                    <label>Años de Exp.</label><input type="number" id="edit-exp" min="0" placeholder="Obligatorio para postularte">
+                    <div id="edit-extra-fields"></div>
+                    <label>Sueldo Deseado</label>
+                    <select id="edit-salary">
+                        <option value="$1,200 - $2,500">$1,200 - $2,500</option>
+                        <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+                        <option value="$5,000+">$5,000+</option>
+                    </select>
+
+                    <label>Documentación</label>
+                    <div class="file-group" style="border-style:solid;">
+                        <label style="font-size:10px; margin:0 0 5px;">CV / Hoja de Vida</label>
+                        <input type="file" id="edit-cv" accept=".pdf,.doc,.docx" onchange="appDocs.cv = !!this.files.length; renderCompleteness()" style="font-size:10px; border:none;">
+                    </div>
+                    <div class="file-group" style="border-style:solid;">
+                        <label style="font-size:10px; margin:0 0 5px;">Título / Certificado</label>
+                        <input type="file" id="edit-doc-title" accept=".pdf,.jpg,.jpeg,.png" onchange="appDocs.title = !!this.files.length; renderCompleteness()" style="font-size:10px; border:none;">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveProfile()" style="margin-bottom:10px;">Guardar Cambios</button>
+                    <button class="btn btn-edit" onclick="toggleEdit(false)">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="nav-bar" id="main-nav"> 
+                <div class="nav-item active" id="nav-home" onclick="navTo('view-home', 'nav-home')"><i class="fas fa-compass"></i><span class="nav-label">Explorar</span></div>
+                <div class="nav-item" id="nav-postulaciones" onclick="navTo('view-postulaciones', 'nav-postulaciones')"><i class="fas fa-briefcase"></i><span class="nav-label">Postulaciones</span></div>
+                <div class="nav-item" id="nav-accepted" onclick="navTo('view-accepted', 'nav-accepted')"><i class="fas fa-circle-check"></i><span class="nav-label">Aceptadas</span></div>
+                <div class="nav-item nav-notif" id="nav-notif" onclick="navTo('view-notifications', 'nav-notif')">
+                    <i class="fas fa-bell"></i>
+                    <span class="nav-label">Avisos</span>
+                    <div class="nav-notif-dot" id="dot"></div>
+                </div>
+                <div class="nav-item" id="nav-profile" onclick="navTo('view-profile', 'nav-profile')"><i class="fas fa-user-circle"></i><span class="nav-label">Perfil</span></div>
+            </nav>
+
+            <!-- Home Indicator (iPhone style) -->
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           PRAXTIA - Aplicación de búsqueda de empleo
+           ============================================================ */
+
+        // ===== CONSTANTES =====
+        const STORAGE_KEY = 'praxtiaAccount';
+        let isDemo = false; // flag para modo invitado, evita persistir datos
+        const JOBS = [
+            {
+                title: "Electricista Industrial",
+                co: "Iber-Energy",
+                icon: "fa-bolt",
+                modality: "Presencial",
+                salary: "$2,500 - $3,200",
+                location: "Ciudad de Guatemala",
+                schedule: "Turnos rotativos",
+                level: "Senior",
+                summary: "Responsable del mantenimiento preventivo y correctivo de sistemas eléctricos industriales dentro de planta.",
+                requirements: ["3 años en mantenimiento industrial", "Lectura de planos eléctricos", "Disponibilidad para turnos"],
+                benefits: ["Seguro médico", "Bono por productividad", "Capacitación técnica"]
+            },
+            {
+                title: "Analista de Sistemas",
+                co: "Tech-Solutions",
+                icon: "fa-code",
+                modality: "Híbrido",
+                salary: "$2,800 - $4,100",
+                location: "Zona 10",
+                schedule: "Lunes a viernes",
+                level: "Mid",
+                summary: "Participarás en análisis funcional, mejora de procesos y soporte de plataformas internas para clientes corporativos.",
+                requirements: ["Experiencia con SQL", "Documentación de procesos", "Capacidad analítica"],
+                benefits: ["Equipo de trabajo", "Home office parcial", "Plan de crecimiento"]
+            },
+            {
+                title: "Mecánico Automotriz",
+                co: "Master-Fix",
+                icon: "fa-car",
+                modality: "Presencial",
+                salary: "$1,400 - $2,200",
+                location: "Mixco",
+                schedule: "Jornada completa",
+                level: "Técnico",
+                summary: "Diagnóstico, reparación y mantenimiento general para vehículos livianos con enfoque en tiempos de entrega y calidad.",
+                requirements: ["Experiencia en motores y frenos", "Orden en taller", "Atención al detalle"],
+                benefits: ["Uniformes", "Bonos por servicio", "Herramienta básica"]
+            },
+            {
+                title: "Gerente de Ventas",
+                co: "Retail Global",
+                icon: "fa-briefcase",
+                modality: "Híbrido",
+                salary: "$3,500 - $5,000",
+                location: "Zona 14",
+                schedule: "Horario ejecutivo",
+                level: "Liderazgo",
+                summary: "Liderarás al equipo comercial, gestionarás indicadores y diseñarás estrategias de crecimiento para nuevas cuentas.",
+                requirements: ["5 años liderando ventas", "Manejo de KPI", "Negociación con clientes"],
+                benefits: ["Comisiones", "Vehículo", "Seguro ejecutivo"]
+            },
+            {
+                title: "Soldador de Alta Presión",
+                co: "Steel-Works",
+                icon: "fa-fire",
+                modality: "Presencial",
+                salary: "$2,200 - $3,000",
+                location: "Escuintla",
+                schedule: "Proyecto por obra",
+                level: "Especialista",
+                summary: "Trabajo en estructuras y tubería de alta presión cumpliendo protocolos estrictos de seguridad industrial.",
+                requirements: ["Certificación vigente", "Experiencia en tubería", "Normas de seguridad"],
+                benefits: ["Viáticos", "Transporte", "Pago de horas extra"]
+            }
+        ];
+
+        const CATEGORY_FIELDS = {
+            trabajo: [
+                { key: 'especialidad', label: 'Especialidad', placeholder: 'Ej. Administración, Sistemas' },
+                { key: 'licencia', label: 'Licencia o colegiado', placeholder: 'Número o detalle profesional' }
+            ],
+            tecnico: [
+                { key: 'areaTecnica', label: 'Área técnica', placeholder: 'Ej. Electricidad, Soporte' },
+                { key: 'certificacion', label: 'Certificación principal', placeholder: 'Nombre de la certificación' }
+            ],
+            oficio: [
+                { key: 'oficioPrincipal', label: 'Oficio principal', placeholder: 'Ej. Soldadura, Carpintería' },
+                { key: 'herramientas', label: 'Herramientas que dominas', placeholder: 'Equipo o herramientas clave' }
+            ],
+            universidad: [
+                { key: 'carrera', label: 'Carrera', placeholder: 'Ej. Ingeniería Industrial' },
+                { key: 'semestre', label: 'Semestre o ciclo', placeholder: 'Ej. 6to semestre' }
+            ]
+        };
+
+        // ===== ESTADO DE LA APP =====
+        let appUser = {};
+        let appPhoto = '';          // base64 string
+        let appPhotoFile = null;    // raw File reference for registration
+        let selectedJob = null;
+        let appPostulaciones = [];
+        let appAccepted = [];
+        let appAlerts = [];
+        let appDocs = { cv: false, title: false }; // documentos subidos
+
+        // ===== PERSISTENCIA =====
+
+        function getSavedAccount() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function saveAccount() {
+            if (isDemo) return; // modo invitado: no persistir
+            const existing = getSavedAccount();
+            const password = existing ? existing.password : '';
+            const data = {
+                user: appUser,
+                password: password,
+                photo: appPhoto,
+                postulaciones: appPostulaciones,
+                accepted: appAccepted,
+                alerts: appAlerts,
+                docs: appDocs
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function restoreFromSaved(saved) {
+            if (!saved) return false;
+            appUser = saved.user || {};
+            appPhoto = saved.photo || '';
+            appPostulaciones = saved.postulaciones || [];
+            appAccepted = saved.accepted || [];
+            appAlerts = saved.alerts || [];
+            appDocs = saved.docs || { cv: false, title: false };
+            return true;
+        }
+
+        function hasAccount() {
+            return getSavedAccount() !== null;
+        }
+
+        // ===== TOAST =====
+        function showToast(msg, duration) {
+            duration = duration || 2500;
+            const el = document.getElementById('toast');
+            if (!el) return;
+            el.textContent = msg;
+            el.classList.add('show');
+            clearTimeout(el._hideTimer);
+            el._hideTimer = setTimeout(() => el.classList.remove('show'), duration);
+        }
+
+        // ===== AUTO-LOGIN AL INICIAR =====
+        (function autoLogin() {
+            const saved = getSavedAccount();
+            if (saved) {
+                restoreFromSaved(saved);
+                // Si ya hay sesión, entrar directo
+                if (saved.user && saved.user.email) {
+                    document.getElementById('main-nav').style.display = 'flex';
+                    refreshUI();
+                    navTo('view-home', 'nav-home');
+                    updateWelcomeActions();
+                    return;
+                }
+            }
+            // Si no hay sesión, mostrar welcome
+            updateWelcomeActions();
+            renderJobs(JOBS);
+            renderPostulaciones();
+            renderAccepted();
+        })();
+
+        // ===== NAVEGACIÓN =====
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active-view');
+        }
+
+        function navTo(viewId, navId) {
+            showView(viewId);
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            const nav = document.getElementById(navId);
+            if (nav) nav.classList.add('active');
+            // Al abrir la vista de avisos, limpiar el dot
+            if (viewId === 'view-notifications') {
+                const dot = document.getElementById('dot');
+                if (dot) dot.style.display = 'none';
+            }
+        }
+
+        // ===== WELCOME / ACCESO =====
+
+        function updateWelcomeActions() {
+            const primaryBtn = document.getElementById('welcome-primary-btn');
+            const registerBtn = document.getElementById('welcome-register-btn');
+            const demoBtn = document.getElementById('welcome-demo-btn');
+            if (!primaryBtn) return;
+
+            if (hasAccount()) {
+                primaryBtn.textContent = 'Iniciar sesión';
+                primaryBtn.onclick = function() { showView('view-login'); };
+                if (registerBtn) { registerBtn.style.display = 'none'; }
+                if (demoBtn) { demoBtn.style.display = 'none'; }
+            } else {
+                primaryBtn.textContent = 'Crear cuenta';
+                primaryBtn.onclick = function() { showView('view-register'); };
+                if (registerBtn) {
+                    registerBtn.style.display = 'block';
+                    registerBtn.textContent = 'Ya tengo cuenta';
+                    registerBtn.onclick = function() { showView('view-login'); };
+                }
+                if (demoBtn) { demoBtn.style.display = 'block'; }
+            }
+        }
+
+        function openPrimaryAccess() {
+            // Reemplazada por updateWelcomeActions() — se mantiene por compatibilidad
+            showView(hasAccount() ? 'view-login' : 'view-register');
+        }
+
+        /**
+         * Modo Demo / Invitado — permite explorar la app sin registrarse.
+         * Crea un perfil de prueba en memoria (sin guardar en localStorage).
+         */
+        function enterDemoMode() {
+            isDemo = true;
+            appUser = {
+                name: 'Invitado',
+                email: 'invitado@demo.com',
+                cat: 'tecnico',
+                exp: 3,
+                salary: '$1,200 - $2,500',
+                mod: 'Presencial',
+                extra: {}
+            };
+            appPhoto = '';
+            appDocs = { cv: false, title: false };
+            appPostulaciones = [];
+            appAccepted = [];
+            appAlerts = [];
+            selectedJob = null;
+
+            document.getElementById('main-nav').style.display = 'flex';
+            refreshUI();
+            navTo('view-home', 'nav-home');
+            showToast('Explorando como invitado — los datos no se guardarán.');
+        }
+
+        // ===== LOGIN =====
+
+        function handleLogin() {
+            const saved = getSavedAccount();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-pass').value;
+
+            if (!saved) {
+                showToast('Primero crea una cuenta.');
+                showView('view-register');
+                return;
+            }
+
+            if (!saved.user || saved.user.email !== email || saved.password !== password) {
+                showToast('Correo o contraseña incorrectos.');
+                return;
+            }
+
+            restoreFromSaved(saved);
+            document.getElementById('main-nav').style.display = 'flex';
+            refreshUI();
+            navTo('view-home', 'nav-home');
+            showToast('Sesión iniciada. ¡Bienvenido!');
+        }
+
+        // ===== REGISTRO =====
+
+        function updateUploadLabel() {
+            const val = document.getElementById('reg-formacion').value;
+            const labels = {
+                trabajo: 'Título Profesional',
+                tecnico: 'Certificado Técnico',
+                oficio: 'Aval de Oficio',
+                universidad: 'Comprobante'
+            };
+            const el = document.getElementById('upload-label');
+            if (el) el.textContent = labels[val] || 'Documento';
+        }
+
+        function previewProfilePhoto(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('photo-preview-img');
+            const icon = document.querySelector('.photo-preview i');
+            if (!file) {
+                preview.style.display = 'none';
+                preview.src = '';
+                if (icon) icon.style.display = 'block';
+                appPhotoFile = null;
+                return;
+            }
+
+            // Store File reference for later conversion to base64
+            appPhotoFile = file;
+
+            // Show preview via object URL (temporary)
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            if (icon) icon.style.display = 'none';
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) { resolve(''); return; }
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error('Error al leer el archivo'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function showFieldError(inputId, msg) {
+            const input = document.getElementById(inputId);
+            const errorBox = document.getElementById('reg-error');
+            if (input) input.classList.add('input-error');
+            if (errorBox) {
+                errorBox.textContent = msg;
+                errorBox.style.display = 'block';
+            }
+        }
+
+        function clearFieldErrors() {
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            const errorBox = document.getElementById('reg-error');
+            if (errorBox) {
+                errorBox.textContent = '';
+                errorBox.style.display = 'none';
+            }
+        }
+
+        async function handleRegister() {
+            clearFieldErrors();
+
+            const firstName = document.getElementById('reg-first-name').value.trim();
+            const lastName = document.getElementById('reg-last-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-pass').value;
+            const exp = document.getElementById('reg-exp').value.trim();
+
+            // === VALIDACIÓN (solo datos de acceso obligatorios) ===
+            if (!firstName) { showFieldError('reg-first-name', 'El primer nombre es obligatorio.'); return; }
+            if (!lastName) { showFieldError('reg-last-name', 'Los apellidos son obligatorios.'); return; }
+            if (!email) { showFieldError('reg-email', 'El correo electrónico es obligatorio.'); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFieldError('reg-email', 'Ingresa un correo válido.'); return; }
+            if (!password || password.length < 4) { showFieldError('reg-pass', 'La contraseña debe tener al menos 4 caracteres.'); return; }
+            // Foto, perfil profesional y documentación son OPCIONALES al registrarse
+
+            const secondName = document.getElementById('reg-second-name').value.trim();
+            const fullName = [firstName, secondName, lastName].filter(Boolean).join(' ');
+
+            // Convertir foto a base64 si existe
+            let photoBase64 = '';
+            if (appPhotoFile) {
+                try {
+                    photoBase64 = await fileToBase64(appPhotoFile);
+                } catch (e) {
+                    showToast('Error al procesar la foto. Intenta de nuevo.');
+                    return;
+                }
+            }
+
+            // Construir usuario
+            appUser = {
+                name: fullName,
+                email: email,
+                cat: document.getElementById('reg-formacion').value,
+                exp: exp,
+                salary: document.getElementById('reg-salary').value,
+                mod: document.getElementById('reg-modalidad').value,
+                extra: {}
+            };
+            appPhoto = photoBase64;
+            appPostulaciones = [];
+            appAccepted = [];
+            appAlerts = [];
+            appDocs = { cv: !!document.getElementById('reg-cv').files.length,
+                        title: !!document.getElementById('reg-document').files.length };
+
+            saveAccount();
+            appPhotoFile = null; // liberar memoria
+            updateWelcomeActions();
+            document.getElementById('main-nav').style.display = 'flex';
+            refreshUI();
+            navTo('view-home', 'nav-home');
+            showToast('¡Cuenta creada con éxito!');
+        }
+
+        // ===== CERRAR SESIÓN =====
+
+        function logout() {
+            // Guardar el estado actual antes de salir
+            saveAccount();
+
+            appUser = {};
+            appPhoto = '';
+            appPhotoFile = null;
+            selectedJob = null;
+            appPostulaciones = [];
+            appAccepted = [];
+            appAlerts = [];
+            appDocs = { cv: false, title: false };
+            isDemo = false;
+
+            document.getElementById('main-nav').style.display = 'none';
+            document.querySelectorAll('input').forEach(i => { i.value = ''; i.classList.remove('input-error'); });
+            document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+            document.getElementById('notif-list').innerHTML = '<div class="empty-state">No hay avisos recientes.</div>';
+            document.getElementById('dot').style.display = 'none';
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById('nav-home').classList.add('active');
+
+            // Reset photo preview
+            const previewImg = document.getElementById('photo-preview-img');
+            const previewIcon = document.querySelector('.photo-preview i');
+            if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none'; }
+            if (previewIcon) previewIcon.style.display = 'block';
+
+            updateUploadLabel();
+            updateWelcomeActions();
+            showView('view-welcome');
+            // Render vacantes por si se vuelve a loguear
+            renderJobs(JOBS);
+            renderPostulaciones();
+            renderAccepted();
+            showToast('Sesión cerrada.');
+        }
+
+        // ===== VACANTES =====
+
+        function renderJobs(data) {
+            const list = document.getElementById('list-container');
+            if (!list) return;
+
+            if (!data || data.length === 0) {
+                list.innerHTML = '<div class="empty-state">No se encontraron vacantes.</div>';
+                return;
+            }
+
+            list.innerHTML = data.map((j, index) => `
+                <div class="card job-card" onclick="openJobDetail(${index})">
+                    <div class="job-header">
+                        <div class="icon-box"><i class="fas ${j.icon}"></i></div>
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-weight:800; font-size:15px; word-wrap:break-word;">${j.title}</div>
+                            <div style="font-size:11px; color:var(--text-sub);">${j.co}</div>
+                            <div class="job-meta">
+                                <span class="job-pill">${j.modality}</span>
+                                <span class="job-pill">${j.salary}</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right job-chevron"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Actualizar estadísticas
+            const statV = document.getElementById('stat-vacantes');
+            const statE = document.getElementById('stat-empresas');
+            const statP = document.getElementById('stat-postulaciones');
+            if (statV) statV.textContent = data.length;
+            if (statE) {
+                const empresas = new Set(data.map(j => j.co)).size;
+                statE.textContent = empresas;
+            }
+            if (statP) statP.textContent = appPostulaciones.length;
+        }
+
+        function filterJobs() {
+            const q = document.getElementById('job-search').value.toLowerCase().trim();
+            if (!q) {
+                renderJobs(JOBS);
+                return;
+            }
+            const filtered = JOBS.filter(j =>
+                j.title.toLowerCase().includes(q) || j.co.toLowerCase().includes(q)
+            );
+            renderJobs(filtered);
+        }
+
+        function openJobDetail(index) {
+            if (index < 0 || index >= JOBS.length) return;
+            selectedJob = JOBS[index];
+            renderJobDetail();
+            showView('view-job-detail');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById('nav-home').classList.add('active');
+        }
+
+        function renderJobDetail() {
+            const container = document.getElementById('job-detail-container');
+            if (!container || !selectedJob) {
+                container.innerHTML = '<div class="empty-state">No se encontró la vacante seleccionada.</div>';
+                return;
+            }
+
+            const j = selectedJob;
+            container.innerHTML = `
+                <div class="home-hero">
+                    <div class="home-eyebrow">${j.co}</div>
+                    <h2>${j.title}</h2>
+                    <p>${j.summary}</p>
+                </div>
+                <div class="home-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">${j.modality}</div>
+                        <div class="stat-label">Modalidad</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${j.level}</div>
+                        <div class="stat-label">Nivel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${j.location}</div>
+                        <div class="stat-label">Ubicación</div>
+                    </div>
+                </div>
+                <div class="home-panel">
+                    <div class="panel-header">
+                        <p class="panel-title">Perfil de oportunidad</p>
+                        <span class="panel-chip">${j.salary}</span>
+                    </div>
+                    <div class="highlight-role">
+                        <div class="icon-box"><i class="fas ${j.icon}"></i></div>
+                        <div class="highlight-copy">
+                            <h4>${j.co}</h4>
+                            <p>Vacante ${j.level.toLowerCase()} con horario ${j.schedule.toLowerCase()} y beneficios competitivos para un perfil ${j.modality.toLowerCase()}.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-hero">
+                    <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                        <div class="icon-box"><i class="fas ${j.icon}"></i></div>
+                        <div>
+                            <div style="font-size:20px; font-weight:800; color:var(--text-main);">${j.title}</div>
+                            <div style="font-size:12px; color:var(--text-sub);">${j.co}</div>
+                        </div>
+                    </div>
+                    <div class="job-meta">
+                        <span class="job-pill">${j.modality}</span>
+                        <span class="job-pill">${j.salary}</span>
+                        <span class="job-pill">${j.level}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <p class="job-description">${j.summary}</p>
+                    <div class="job-detail-grid">
+                        <div class="job-detail-box">
+                            <div class="job-detail-label">Ubicación</div>
+                            <div class="job-detail-value">${j.location}</div>
+                        </div>
+                        <div class="job-detail-box">
+                            <div class="job-detail-label">Horario</div>
+                            <div class="job-detail-value">${j.schedule}</div>
+                        </div>
+                        <div class="job-detail-box">
+                            <div class="job-detail-label">Nivel</div>
+                            <div class="job-detail-value">${j.level}</div>
+                        </div>
+                        <div class="job-detail-box">
+                            <div class="job-detail-label">Salario</div>
+                            <div class="job-detail-value">${j.salary}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="job-section-title">Requisitos</p>
+                        <ul class="job-list">
+                            ${j.requirements.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <p class="job-section-title">Beneficios</p>
+                        <ul class="job-list">
+                            ${j.benefits.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="job-actions">
+                        <button class="job-link" type="button" onclick="navTo('view-home', 'nav-home')">Volver a explorar</button>
+                        <button class="btn-postular" onclick="postular('${j.title}', '${j.co}')">Postular</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== POSTULACIONES / VERIFICACIÓN DE PERFIL =====
+
+        function checkProfileCompleteness() {
+            const missing = [];
+
+            // 1. Foto de perfil
+            if (!appPhoto) missing.push('foto de perfil');
+
+            // 2. Perfil profesional (experiencia + campos extra)
+            if (!appUser.exp || parseInt(appUser.exp) <= 0) {
+                missing.push('años de experiencia');
+            }
+
+            const fields = CATEGORY_FIELDS[appUser.cat] || [];
+            let extraIncomplete = false;
+            for (const f of fields) {
+                if (!appUser.extra || !appUser.extra[f.key] || !appUser.extra[f.key].trim()) {
+                    extraIncomplete = true;
+                    break;
+                }
+            }
+            if (extraIncomplete) missing.push('detalles del perfil profesional');
+
+            // 3. Documentación
+            if (!appDocs.cv) missing.push('CV / hoja de vida');
+
+            return missing;
+        }
+
+        function postular(title, company) {
+            // Verificar perfil completo antes de postular
+            const incompleto = checkProfileCompleteness();
+            if (incompleto.length > 0) {
+                const lista = incompleto.map(item => '• ' + item).join('\n');
+                showToast('Completa tu perfil para postularte:\n' + lista, 4000);
+                // Ir a la vista de perfil en modo edición
+                navTo('view-profile', 'nav-profile');
+                toggleEdit(true);
+                return;
+            }
+
+            const yaExiste = appPostulaciones.some(p => p.title === title && p.company === company);
+            if (yaExiste) {
+                showToast(`Ya estás postulado a ${company}.`);
+                navTo('view-postulaciones', 'nav-postulaciones');
+                return;
+            }
+
+            const now = new Date();
+            const fecha = now.toLocaleString('es-GT', { hour12: true });
+            appPostulaciones.unshift({ title, company, date: fecha });
+            renderPostulaciones();
+            renderJobs(JOBS); // actualiza contadores
+            addNotif(`Te postulaste a ${company} para ${title}`);
+            saveAccount();
+
+            // Simular interés de la empresa (entre 3 y 7 segundos)
+            const interesDelay = 3000 + Math.random() * 4000;
+            setTimeout(() => {
+                const msg = `${company} está interesado en tu perfil para ${title}.`;
+                addNotif(msg);
+            }, interesDelay);
+
+            // Simular aceptación con probabilidad del 60% (entre 5 y 12 segundos)
+            const aceptaDelay = 5000 + Math.random() * 7000;
+            setTimeout(() => {
+                if (Math.random() < 0.60) {
+                    const job = JOBS.find(j => j.title === title && j.co === company);
+                    if (job) markAsAccepted(job);
+                }
+            }, aceptaDelay);
+
+            navTo('view-postulaciones', 'nav-postulaciones');
+            showToast(`¡Postulación enviada a ${company}!`);
+        }
+
+        function renderPostulaciones() {
+            const container = document.getElementById('postulaciones-list');
+            if (!container) return;
+
+            if (appPostulaciones.length === 0) {
+                container.innerHTML = '<div class="empty-state">Aún no tienes postulaciones registradas.</div>';
+                return;
+            }
+
+            container.innerHTML = appPostulaciones.map(p => `
+                <div class="card">
+                    <div style="font-weight:800; font-size:15px;">${p.title}</div>
+                    <div style="font-size:12px; color:var(--text-sub);">${p.company}</div>
+                    <div class="post-date">Postulado: ${p.date}</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== ACEPTADAS =====
+
+        function markAsAccepted(job) {
+            if (!job) return;
+            const yaAceptada = appAccepted.some(item => item.title === job.title && item.company === job.co);
+            if (yaAceptada) return;
+
+            appAccepted.unshift({
+                title: job.title,
+                company: job.co,
+                modality: job.modality,
+                salary: job.salary,
+                schedule: job.schedule,
+                location: job.location,
+                startDate: 'En coordinación con la empresa',
+                conditions: [
+                    `Presentarte según modalidad ${job.modality.toLowerCase()} y horario ${job.schedule.toLowerCase()}.`,
+                    `Confirmar disponibilidad para laborar en ${job.location}.`,
+                    `Rango salarial estimado: ${job.salary}.`,
+                    'Completar el proceso de ingreso y entrega de documentos con la empresa.'
+                ]
+            });
+
+            renderAccepted();
+            addNotif(`¡Felicidades! Tu postulación a ${job.co} fue aceptada.`);
+            saveAccount();
+        }
+
+        function renderAccepted() {
+            const container = document.getElementById('accepted-list');
+            if (!container) return;
+
+            if (appAccepted.length === 0) {
+                container.innerHTML = '<div class="empty-state">Aún no tienes postulaciones aceptadas.</div>';
+                return;
+            }
+
+            container.innerHTML = appAccepted.map(item => `
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:10px;">
+                        <div>
+                            <div style="font-weight:800; font-size:15px;">${item.title}</div>
+                            <div style="font-size:12px; color:var(--text-sub);">${item.company}</div>
+                        </div>
+                        <span class="panel-chip">Aceptada</span>
+                    </div>
+                    <div class="job-meta" style="margin-bottom:12px;">
+                        <span class="job-pill">${item.modality}</span>
+                        <span class="job-pill">${item.salary}</span>
+                    </div>
+                    <div class="info-row"><span>Horario</span><span>${item.schedule}</span></div>
+                    <div class="info-row"><span>Ubicación</span><span>${item.location}</span></div>
+                    <div class="info-row"><span>Ingreso estimado</span><span>${item.startDate}</span></div>
+                    <div style="margin-top:14px; font-size:12px; font-weight:800; color:var(--text-main); text-transform:uppercase; letter-spacing:0.08em;">Condiciones</div>
+                    <ul class="job-list" style="margin-top:10px;">
+                        ${item.conditions.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // ===== NOTIFICACIONES =====
+
+        function addNotif(msg) {
+            const dot = document.getElementById('dot');
+            if (dot) dot.style.display = 'block';
+
+            const list = document.getElementById('notif-list');
+            if (list) {
+                // Quitar mensaje vacío si existe
+                const emptyMsg = list.querySelector('.empty-state');
+                if (emptyMsg) emptyMsg.remove();
+
+                const item = document.createElement('div');
+                item.style.cssText = 'padding:12px 0; border-bottom:0.5px solid var(--separator); font-size:13px; color:var(--text-main); line-height:1.4;';
+                item.textContent = msg;
+                list.prepend(item);
+                // Mantener máximo 20 notis
+                while (list.children.length > 20) {
+                    list.removeChild(list.lastChild);
+                }
+            }
+
+            const time = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' });
+            appAlerts.unshift(`${msg} (${time})`);
+            if (appAlerts.length > 20) appAlerts = appAlerts.slice(0, 20);
+            renderProfileAlerts();
+            saveAccount();
+        }
+
+        function clearNotifs() {
+            const list = document.getElementById('notif-list');
+            if (list) list.innerHTML = '<div class="empty-state">No hay avisos recientes.</div>';
+            const dot = document.getElementById('dot');
+            if (dot) dot.style.display = 'none';
+            appAlerts = [];
+            renderProfileAlerts();
+            saveAccount();
+        }
+
+        function renderProfileAlerts() {
+            const box = document.getElementById('profile-notif-list');
+            if (!box) return;
+
+            if (appAlerts.length === 0) {
+                box.innerHTML = '<div class="empty-state">Sin novedades por ahora.</div>';
+                return;
+            }
+
+            box.innerHTML = appAlerts.map(a => `<div class="profile-alert-item">${a}</div>`).join('');
+        }
+
+        // ===== PERFIL =====
+
+        function refreshUI() {
+            const dn = document.getElementById('display-name');
+            const de = document.getElementById('display-email');
+            const pc = document.getElementById('p-cat');
+            const pe = document.getElementById('p-exp');
+            const pm = document.getElementById('p-mod');
+            const ps = document.getElementById('p-salary');
+
+            if (dn) dn.textContent = appUser.name || 'Profesional';
+            if (de) de.textContent = appUser.email || '';
+            if (pc) pc.textContent = (appUser.cat || '').toUpperCase();
+            if (pe) pe.textContent = (appUser.exp || '0') + ' años';
+            if (pm) pm.textContent = appUser.mod || '';
+            if (ps) ps.textContent = appUser.salary || '';
+
+            // Foto de perfil
+            const avatar = document.getElementById('profile-avatar');
+            const defaultLogo = document.getElementById('default-profile-logo');
+            if (appPhoto && avatar) {
+                avatar.src = appPhoto;
+                avatar.style.display = 'block';
+                if (defaultLogo) defaultLogo.style.display = 'none';
+            } else {
+                if (avatar) { avatar.src = ''; avatar.style.display = 'none'; }
+                if (defaultLogo) { defaultLogo.style.display = 'block'; defaultLogo.src = 'praxtia-logo.jpeg'; }
+            }
+
+            renderJobs(JOBS);
+            renderPostulaciones();
+            renderAccepted();
+            renderProfileAlerts();
+            renderProfileExtraData();
+        }
+
+        function toggleEdit(on) {
+            const read = document.getElementById('profile-read');
+            const edit = document.getElementById('profile-edit');
+            if (read) read.style.display = on ? 'none' : 'block';
+            if (edit) edit.style.display = on ? 'block' : 'none';
+            if (on) {
+                const expInput = document.getElementById('edit-exp');
+                const salarySelect = document.getElementById('edit-salary');
+                if (expInput) expInput.value = appUser.exp || '';
+                if (salarySelect) salarySelect.value = appUser.salary || '$1,200 - $2,500';
+                renderEditExtraFields();
+
+                // Mostrar foto actual en el editor
+                const editPhotoImg = document.getElementById('edit-photo-img');
+                const editPhotoIcon = document.querySelector('#edit-photo-preview i');
+                if (appPhoto && editPhotoImg) {
+                    editPhotoImg.src = appPhoto;
+                    editPhotoImg.style.display = 'block';
+                    if (editPhotoIcon) editPhotoIcon.style.display = 'none';
+                } else {
+                    if (editPhotoImg) { editPhotoImg.src = ''; editPhotoImg.style.display = 'none'; }
+                    if (editPhotoIcon) editPhotoIcon.style.display = 'block';
+                }
+
+                renderCompleteness();
+            }
+        }
+
+        function renderEditExtraFields() {
+            const container = document.getElementById('edit-extra-fields');
+            if (!container || !appUser.cat) return;
+
+            const fields = CATEGORY_FIELDS[appUser.cat] || [];
+            if (fields.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = fields.map(f => `
+                <label>${f.label}</label>
+                <input type="text" id="edit-${f.key}" placeholder="${f.placeholder}">
+            `).join('');
+
+            fields.forEach(f => {
+                const input = document.getElementById(`edit-${f.key}`);
+                if (input && appUser.extra) {
+                    input.value = appUser.extra[f.key] || '';
+                }
+            });
+        }
+
+        function renderProfileExtraData() {
+            const card = document.getElementById('profile-extra-card');
+            const list = document.getElementById('profile-extra-list');
+            if (!card || !list || !appUser.cat) return;
+
+            const fields = CATEGORY_FIELDS[appUser.cat] || [];
+            const entries = fields
+                .map(f => ({ label: f.label, value: appUser.extra ? appUser.extra[f.key] || '' : '' }))
+                .filter(item => item.value);
+
+            if (entries.length === 0) {
+                card.style.display = 'none';
+                return;
+            }
+
+            card.style.display = 'block';
+            list.innerHTML = entries.map(item => `
+                <div class="info-row">
+                    <span>${item.label}</span>
+                    <span>${item.value}</span>
+                </div>
+            `).join('');
+        }
+
+        // ===== COMPLETITUD DEL PERFIL (edición) =====
+
+        function renderCompleteness() {
+            const box = document.getElementById('profile-completeness');
+            if (!box) return;
+            const missing = checkProfileCompleteness();
+            if (missing.length === 0) {
+                box.innerHTML = '<span style="color:var(--success); font-weight:700;">✓ Perfil completo — puedes postularte sin problemas</span>';
+                box.style.borderColor = '#bbf7d0';
+                box.style.background = '#f0fdf4';
+                return;
+            }
+            box.innerHTML = '<div style="color:var(--text-main); font-weight:700; margin-bottom:6px;">⛔ Faltan datos para postularte:</div>' +
+                missing.map(m => '<div style="color:var(--danger); padding:2px 0;">• ' + m + '</div>').join('');
+            box.style.borderColor = '#fecaca';
+            box.style.background = '#fef2f2';
+        }
+
+        function previewEditPhoto(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('edit-photo-img');
+            const icon = document.querySelector('#edit-photo-preview i');
+            if (!file) {
+                preview.style.display = 'none';
+                preview.src = '';
+                if (icon) icon.style.display = 'block';
+                return;
+            }
+            // Mostrar preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                appPhoto = e.target.result; // guardar base64 directamente
+                preview.src = appPhoto;
+                preview.style.display = 'block';
+                if (icon) icon.style.display = 'none';
+                renderCompleteness();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveProfile() {
+            appUser.exp = document.getElementById('edit-exp').value || '0';
+            appUser.salary = document.getElementById('edit-salary').value;
+            appUser.extra = appUser.extra || {};
+
+            const fields = CATEGORY_FIELDS[appUser.cat] || [];
+            fields.forEach(f => {
+                const input = document.getElementById(`edit-${f.key}`);
+                if (input) appUser.extra[f.key] = input.value.trim();
+            });
+
+            saveAccount();
+            refreshUI();
+            toggleEdit(false);
+            addNotif('Perfil actualizado correctamente.');
+            showToast('Perfil guardado.');
+        }
+
+        // ===== CLOCK =====
+        (function startClock() {
+            function tick() {
+                const d = new Date();
+                const el = document.getElementById('clock');
+                if (el) {
+                    el.textContent = String(d.getHours()) + ':' + String(d.getMinutes()).padStart(2, '0');
+                }
+            }
+            tick();
+            setInterval(tick, 1000);
+        })();
+
+        // ===== SERVICE WORKER =====
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {
+                    // Service worker no disponible (entorno local sin HTTPS)
+                });
+            });
+        }
+    </script>
+</body>
+</html>

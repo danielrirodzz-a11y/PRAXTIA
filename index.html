@@ -177,9 +177,22 @@
         @media all and (display-mode: standalone) {
             html, body { height: 100dvh; overflow: hidden; }
             .iphone-frame { height: 100dvh; overflow: hidden; }
-            .screen { height: 100dvh; }
-            .view { flex: 1 1 0px; min-height: 0; overflow-y: auto; }
-            #view-profile { flex: 1 1 0px; min-height: 0; overflow-y: auto; }
+            .screen {
+                height: 100dvh;
+                padding-top: env(safe-area-inset-top, 0px);
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+            .view,
+            #view-profile {
+                flex: 1 1 0px; min-height: 0; overflow-y: auto;
+                padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+            }
+            #view-welcome {
+                padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+            }
+            .nav-bar {
+                bottom: max(20px, env(safe-area-inset-bottom, 20px));
+            }
         }
 
         /* --- iPhone Frame (se activa en pantallas grandes) --- */

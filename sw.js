@@ -2,6 +2,9 @@ const CACHE_NAME = "nexa-cache-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./icon-180.png",
   "./nexa-logo.jpeg"
 ];
 

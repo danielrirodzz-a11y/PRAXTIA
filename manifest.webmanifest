@@ -1,21 +1,26 @@
 ﻿{
   "name": "NEXA",
   "short_name": "NEXA",
+  "description": "Plataforma profesional para encontrar oportunidades laborales",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0040FF",
   "theme_color": "#0040FF",
   "orientation": "portrait",
+  "categories": ["jobs", "professional", "employment"],
   "icons": [
     {
-      "src": "nexa-logo.jpeg",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "nexa-logo.jpeg",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": []
 }

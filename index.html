@@ -10,7 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="NEXA">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="nexa-logo.jpeg">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1240,6 +1242,13 @@
                             </button>
                         </div>
                     </div>
+                    <div id="install-app-card" class="profile-card" style="display:none;">
+                        <div class="profile-card-title"><i class="fas fa-download"></i> App NEXA</div>
+                        <p style="font-size:13px; color:var(--text-sub); margin:0 0 12px; line-height:1.4;">Instala NEXA en tu pantalla de inicio para acceder más rápido.</p>
+                        <button class="btn btn-primary" id="install-btn" onclick="installApp()" style="font-size:14px; padding:12px;">
+                            <i class="fas fa-mobile-screen"></i> Instalar App
+                        </button>
+                    </div>
                     <div class="profile-actions">
                         <button class="btn btn-edit" onclick="toggleEdit(true)"><i class="fas fa-pencil"></i> Editar información</button>
                         <button class="btn btn-logout" onclick="logout()">
@@ -2358,10 +2367,51 @@
             });
         })();
 
+        // ===== PWA INSTALL (beforeinstallprompt) =====
+        (function() {
+            var deferredPrompt = null;
+            var installCard = document.getElementById('install-app-card');
+
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (installCard) installCard.style.display = 'block';
+            });
+
+            window.installApp = function() {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(result) {
+                    deferredPrompt = null;
+                    if (installCard) installCard.style.display = 'none';
+                });
+            };
+
+            // On iOS / already installed: hide card after a short timeout
+            if (installCard) {
+                setTimeout(function() {
+                    // If beforeinstallprompt didn't fire, check if already in standalone
+                    if (!deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+                        // On iOS show hint to use Share → Add to Home Screen
+                        installCard.style.display = 'block';
+                        document.getElementById('install-btn').textContent = 'Compartir → Pantalla de inicio';
+                        document.getElementById('install-btn').onclick = function() {
+                            alert('En Safari: toca el icono Compartir (📤) y selecciona "Agregar a pantalla de inicio".');
+                        };
+                    }
+                }, 3000);
+            }
+
+            // Hide card if already running as standalone PWA
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                if (installCard) installCard.style.display = 'none';
+            }
+        })();
+
         // ===== SERVICE WORKER =====
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {
+                navigator.serviceWorker.register('./sw.js').catch(function() {
                     // Service worker no disponible (entorno local sin HTTPS)
                 });
             });

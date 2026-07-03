@@ -179,13 +179,13 @@
             margin: 0 auto; background: transparent;
             border-radius: 0; padding: 0;
             position: relative; box-shadow: none; border: none;
+            overflow: hidden;
         }
         .screen {
-            width: 100%; height: 100%; min-height: 100dvh;
+            width: 100%; height: 100%;
             background: var(--bg-light);
             border-radius: 0; position: relative;
-            overflow: hidden; display: flex; flex-direction: column;
-            overscroll-behavior: contain;
+            display: flex; flex-direction: column;
         }
         /* Home indicator (visible solo dentro del frame) */
         .home-indicator {
@@ -336,7 +336,6 @@
                     0 30px 60px -20px rgba(0,0,0,0.5);
             }
             .screen {
-                min-height: auto;
                 height: 100%;
                 border-radius: 42px;
                 overflow: hidden;
@@ -356,19 +355,24 @@
 
         /* --- Scrollable Views --- */
         .view {
-            flex: 1; padding: 8px 16px 120px;
+            flex: 1 1 auto; padding: 8px 16px 120px;
             display: none; flex-direction: column;
             overflow-y: auto;
+            overflow-x: hidden;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
             position: relative; z-index: 0;
+            min-height: 0;
+            min-width: 0;
         }
         .view::-webkit-scrollbar { display: none; }
         .active-view { display: flex; }
         #view-profile {
-            padding: 8px 16px 120px; overflow-y: auto; scrollbar-width: none;
+            flex: 1 1 auto; padding: 8px 16px 120px;
+            overflow-y: auto; scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
             position: relative; z-index: 0;
+            min-height: 0;
         }
         #view-profile::-webkit-scrollbar { display: none; }
 

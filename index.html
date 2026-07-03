@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>NEXA - Edición Pro Completa</title>
     <meta name="theme-color" content="#0040FF">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -182,10 +182,11 @@
             overflow: hidden;
         }
         .screen {
-            width: 100%; height: 100%;
+            width: 100%; height: 100dvh;
             background: var(--bg-light);
             border-radius: 0; position: relative;
             display: flex; flex-direction: column;
+            flex-shrink: 0;
         }
         /* Home indicator (visible solo dentro del frame) */
         .home-indicator {
@@ -355,9 +356,9 @@
 
         /* --- Scrollable Views --- */
         .view {
-            flex: 1 1 auto; padding: 8px 16px 120px;
+            flex: 1; padding: 8px 16px 100px;
             display: none; flex-direction: column;
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
@@ -368,8 +369,10 @@
         .view::-webkit-scrollbar { display: none; }
         .active-view { display: flex; }
         #view-profile {
-            flex: 1 1 auto; padding: 8px 16px 120px;
-            overflow-y: auto; scrollbar-width: none;
+            flex: 1; padding: 8px 16px 100px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
             position: relative; z-index: 0;
             min-height: 0;
@@ -682,7 +685,7 @@
             display: none;
             position: absolute;
             left: 12px; right: 12px;
-            bottom: 20px;
+            bottom: max(12px, env(safe-area-inset-bottom, 12px));
             z-index: 1000;
             padding: 6px 8px;
             border-radius: 34px;

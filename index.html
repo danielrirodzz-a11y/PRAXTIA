@@ -43,6 +43,80 @@
             --safe-bottom: 16px;
         }
 
+        /* --- Dark Mode Variables --- */
+        html.dark {
+            --bg-light: #000000;
+            --bg-card: rgba(28,28,30,0.95);
+            --white: #000000;
+            --text-main: #f5f5f7;
+            --text-sub: #8e8e93;
+            --text-tertiary: #636366;
+            --separator: rgba(255,255,255,0.08);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.25);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.35);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.45);
+        }
+
+        /* --- Theme Toggle Styles --- */
+        .theme-section { margin-top: 16px; }
+        .theme-section .profile-card-title { margin-bottom: 12px; }
+        .theme-selector {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+        .theme-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .theme-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+        .theme-btn i { display: block; font-size: 18px; margin-bottom: 2px; }
+        .theme-btn.active i { color: #fff; }
+
+        /* --- Dark mode overrides for hardcoded colors --- */
+        html.dark .status-bar { color: #f5f5f7; }
+        html.dark .signal-bars .bar { background: #f5f5f7; }
+        html.dark .battery-shell { border-color: #f5f5f7; }
+        html.dark .battery-shell::after { background: #f5f5f7; }
+        html.dark .battery-level { background: #34c759; }
+        html.dark .nav-bar {
+            background: rgba(28,28,30,0.85);
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        html.dark .nav-notif-dot { box-shadow: 0 0 0 1.5px #000; }
+        html.dark .welcome-logo-wrap {
+            background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(0,144,255,0.08) 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 20px 32px -8px rgba(0,144,255,0.15);
+        }
+        html.dark .iphone-frame { background: #000; }
+        html.dark .screen { background: var(--bg-light); }
+        html.dark .icon-box { background: rgba(0,144,255,0.15); }
+        html.dark .job-pill { background: rgba(0,144,255,0.15); }
+        html.dark .panel-chip { background: rgba(0,144,255,0.15); }
+        html.dark .profile-stage { background: var(--bg-light); }
+        html.dark .info-box { background: var(--bg-card); }
+        html.dark .profile-card { background: var(--bg-card); }
+        html.dark .btn-edit { background: var(--bg-card); }
+        html.dark .btn-logout { background: var(--bg-card); }
+
         /* --- Reset --- */
         html, body { height: 100%; margin: 0; padding: 0; }
         body {
@@ -1082,6 +1156,20 @@
                     <div id="profile-extra-card" class="profile-card" style="display:none;">
                         <div class="profile-card-title">Detalles del perfil</div>
                         <div id="profile-extra-list"></div>
+                    </div>
+                    <div class="profile-card theme-section">
+                        <div class="profile-card-title"><i class="fas fa-palette"></i> Apariencia</div>
+                        <div class="theme-selector" id="theme-selector">
+                            <button class="theme-btn" data-theme="light" onclick="setTheme('light')">
+                                <i class="fas fa-sun"></i> Claro
+                            </button>
+                            <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                                <i class="fas fa-moon"></i> Oscuro
+                            </button>
+                            <button class="theme-btn" data-theme="system" onclick="setTheme('system')">
+                                <i class="fas fa-desktop"></i> Sistema
+                            </button>
+                        </div>
                     </div>
                     <div class="profile-actions">
                         <button class="btn btn-edit" onclick="toggleEdit(true)"><i class="fas fa-pencil"></i> Editar información</button>
@@ -2160,6 +2248,45 @@
             }
             tick();
             setInterval(tick, 1000);
+        })();
+
+        // ===== THEME (Claro / Oscuro / Sistema) =====
+        (function initTheme() {
+            const THEME_KEY = 'nexaTheme';
+
+            function getPreferred() {
+                const s = localStorage.getItem(THEME_KEY);
+                if (s === 'light' || s === 'dark') return s;
+                return 'system';
+            }
+
+            function apply(mode) {
+                const isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('dark', isDark);
+                // Update meta theme-color
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.content = isDark ? '#000000' : '#0040FF';
+                // Update active button
+                document.querySelectorAll('.theme-btn').forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.theme === mode);
+                });
+            }
+
+            window.setTheme = function(mode) {
+                localStorage.setItem(THEME_KEY, mode);
+                apply(mode);
+            };
+
+            // Initial apply after DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() { apply(getPreferred()); });
+            } else {
+                apply(getPreferred());
+            }
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                if (getPreferred() === 'system') apply('system');
+            });
         })();
 
         // ===== SERVICE WORKER =====

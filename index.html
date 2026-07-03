@@ -173,6 +173,15 @@
         }
         * { box-sizing: border-box; }
 
+        /* --- Fix para iOS PWA standalone (pantalla de inicio) --- */
+        @media all and (display-mode: standalone) {
+            html, body { height: 100dvh; overflow: hidden; }
+            .iphone-frame { height: 100dvh; overflow: hidden; }
+            .screen { height: 100dvh; }
+            .view { flex: 1 1 0px; min-height: 0; overflow-y: auto; }
+            #view-profile { flex: 1 1 0px; min-height: 0; overflow-y: auto; }
+        }
+
         /* --- iPhone Frame (se activa en pantallas grandes) --- */
         .iphone-frame {
             width: 100%; height: 100dvh;
@@ -186,7 +195,6 @@
             background: var(--bg-light);
             border-radius: 0; position: relative;
             display: flex; flex-direction: column;
-            flex-shrink: 0;
         }
         /* Home indicator (visible solo dentro del frame) */
         .home-indicator {
@@ -356,21 +364,20 @@
 
         /* --- Scrollable Views --- */
         .view {
-            flex: 1; padding: 8px 16px 100px;
+            flex: 1; padding: 8px 16px 120px;
             display: none; flex-direction: column;
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
             position: relative; z-index: 0;
             min-height: 0;
-            min-width: 0;
         }
         .view::-webkit-scrollbar { display: none; }
         .active-view { display: flex; }
         #view-profile {
-            flex: 1; padding: 8px 16px 100px;
-            overflow-y: scroll;
+            flex: 1; padding: 8px 16px 120px;
+            overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
@@ -685,7 +692,7 @@
             display: none;
             position: absolute;
             left: 12px; right: 12px;
-            bottom: max(12px, env(safe-area-inset-bottom, 12px));
+            bottom: 20px;
             z-index: 1000;
             padding: 6px 8px;
             border-radius: 34px;
@@ -2416,6 +2423,28 @@
             // Hide card if already running as standalone PWA
             if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
                 if (installCard) installCard.style.display = 'none';
+            }
+        })();
+
+        // ===== IOS PWA STANDALONE SCROLL FIX =====
+        (function() {
+            var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            if (isStandalone) {
+                // Force layout recalculation on orientation change and after load
+                function fixLayout() {
+                    var screen = document.querySelector('.screen');
+                    if (screen) {
+                        screen.style.height = '100dvh';
+                        // Force reflow
+                        void screen.offsetHeight;
+                    }
+                }
+                window.addEventListener('load', fixLayout);
+                window.addEventListener('orientationchange', function() {
+                    setTimeout(fixLayout, 300);
+                });
+                // Also run after fonts and images load
+                setTimeout(fixLayout, 500);
             }
         })();
 

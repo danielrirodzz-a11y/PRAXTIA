@@ -97,9 +97,11 @@
         html.dark .battery-shell::after { background: #f5f5f7; }
         html.dark .battery-level { background: #34c759; }
         html.dark .nav-bar {
-            background: rgba(28,28,30,0.85);
-            border-color: rgba(255,255,255,0.08);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: rgba(28,28,30,0.6);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.4),
+                inset 0 0.5px 0 rgba(255,255,255,0.08);
         }
         html.dark .nav-notif-dot { box-shadow: 0 0 0 1.5px #000; }
         html.dark .welcome-logo-wrap {
@@ -116,6 +118,44 @@
         html.dark .profile-card { background: var(--bg-card); }
         html.dark .btn-edit { background: var(--bg-card); }
         html.dark .btn-logout { background: var(--bg-card); }
+
+        /* --- Dark mode: Welcome screen --- */
+        html.dark #view-welcome {
+            background:
+                radial-gradient(circle at 80% 20%, rgba(0,144,255,0.12), transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(0,144,255,0.08), transparent 40%),
+                linear-gradient(180deg, #0a0a0e 0%, #000 100%);
+        }
+        html.dark .welcome-shell {
+            background: rgba(28,28,30,0.92);
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 30px 50px -12px rgba(0,0,0,0.4);
+        }
+        html.dark .welcome-shell::before {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+        }
+        html.dark .welcome-badge {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* --- Dark mode: Login / Register --- */
+        html.dark #view-login input,
+        html.dark #view-register input,
+        html.dark #view-register select {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-main);
+        }
+        html.dark #view-login input:focus,
+        html.dark #view-register input:focus,
+        html.dark #view-register select:focus {
+            background: rgba(255,255,255,0.1);
+        }
+        html.dark #view-login .file-group,
+        html.dark #view-register .file-group {
+            background: rgba(255,255,255,0.03);
+            border-color: rgba(255,255,255,0.1);
+        }
 
         /* --- Reset --- */
         html, body { height: 100%; margin: 0; padding: 0; }
@@ -438,11 +478,12 @@
             position: relative;
         }
         .nav-notif-dot {
-            position: absolute; top: 4px; right: calc(50% - 18px);
-            width: 8px; height: 8px;
+            position: absolute; top: 5px; right: calc(50% - 19px);
+            width: 7px; height: 7px;
             background: var(--danger); border-radius: 50%;
             display: none;
             box-shadow: 0 0 0 1.5px var(--bg-light);
+            z-index: 2;
         }
         .notif-actions {
             display: flex; justify-content: flex-end;
@@ -627,39 +668,52 @@
 
         /* --- iOS Tab Bar (navigation) --- */
         .nav-bar {
-            height: 60px;
+            height: 68px;
             display: none;
             position: absolute;
-            left: 16px; right: 16px;
-            bottom: 22px;
+            left: 12px; right: 12px;
+            bottom: 20px;
             z-index: 1000;
-            padding: 4px 6px;
-            border-radius: var(--radius-xl);
-            background: rgba(255,255,255,0.48);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 0.5px solid rgba(255,255,255,0.5);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 6px 8px;
+            border-radius: 34px;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(60px) saturate(1.8);
+            -webkit-backdrop-filter: blur(60px) saturate(1.8);
+            border: 0.5px solid rgba(255,255,255,0.6);
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.08),
+                inset 0 0.5px 0 rgba(255,255,255,0.8);
         }
         .nav-item {
-            flex: 1; height: 50px;
+            flex: 1; height: 54px;
             color: var(--text-tertiary);
             font-size: 10px; font-weight: 600;
             text-align: center; cursor: pointer;
-            border-radius: var(--radius-sm);
+            border-radius: 22px;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             gap: 1px;
             background: transparent;
             border: none;
-            transition: color 0.15s;
+            transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
         }
         .nav-item.active {
             color: var(--primary);
         }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 1px; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 1px; transition: transform 0.2s; }
+        .nav-item.active i { transform: scale(1.05); }
         .nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1px; }
+        /* Active indicator pill */
+        .nav-item.active::after {
+            content: ''; position: absolute;
+            bottom: 4px; left: 50%;
+            transform: translateX(-50%);
+            width: 20px; height: 3px;
+            border-radius: 999px;
+            background: var(--primary);
+        }
 
         /* --- Misc --- */
         .info-box { background: var(--bg-card); border-radius: var(--radius-lg); padding: 15px; box-shadow: var(--shadow-sm); margin-bottom: 15px; }
@@ -822,6 +876,21 @@
             color: var(--text-sub); letter-spacing: 0.3px;
             text-transform: uppercase;
         }
+        #view-login input {
+            width: 100%;
+            border-radius: var(--radius-sm);
+            background: rgba(118,118,128,0.06);
+            padding: 14px 14px;
+            font-size: 16px; margin-bottom: 8px;
+            border: none; font-family: inherit;
+            color: var(--text-main);
+            outline: none;
+            transition: background 0.15s;
+        }
+        #view-login input:focus {
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
         #view-register input,
         #view-register select {
             border-radius: var(--radius-sm);
@@ -892,7 +961,7 @@
             transform: translate(-50%, -50%) scale(1);
         }
         @media (min-width: 768px) {
-            .nav-bar { left: 14px; right: 14px; }
+            .nav-bar { left: 12px; right: 12px; bottom: 18px; }
         }
     </style>
 </head>
